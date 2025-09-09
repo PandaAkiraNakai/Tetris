@@ -1,0 +1,47 @@
+body {
+    background: #222;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+}
+h1 {
+    margin-bottom: 10px;
+}
+#tetris-container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 24px;
+}
+#tetris {
+    background: #111;
+    border: 2px solid #fff;
+    box-shadow: 0 0 20px #000;
+    display: block;
+    margin-bottom: 0;
+}
+#sidebar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+#next-label {
+    font-size: 1em;
+    margin-bottom: 4px;
+}
+#next {
+    background: #222;
+    border: 2px solid #fff;
+    box-shadow: 0 0 10px #000;
+    display: block;
+}
+#score {
+    font-size: 1.2em;
+    margin-top: 10px;
+}
