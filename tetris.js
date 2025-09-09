@@ -1,6 +1,29 @@
+
 const canvas = document.getElementById('tetris');
 const context = canvas.getContext('2d');
 context.scale(20, 20);
+
+const pikachuImg = document.getElementById('pikachu-img');
+let pikaLoaded = false;
+let pika = {
+    x: 2,
+    y: 2,
+    dx: 0.08 + Math.random() * 0.08,
+    dy: 0.08 + Math.random() * 0.08,
+    w: 2,
+    h: 2
+};
+// Forzar recarga y fallback visual
+function tryLoadPika() {
+    pikaLoaded = false;
+    if (pikachuImg.complete && pikachuImg.naturalWidth > 0) {
+        pikaLoaded = true;
+    } else {
+        pikachuImg.onload = () => { pikaLoaded = true; };
+        pikachuImg.onerror = () => { pikaLoaded = false; };
+    }
+}
+tryLoadPika();
 
 const nextCanvas = document.getElementById('next');
 const nextCtx = nextCanvas.getContext('2d');
@@ -241,8 +264,24 @@ function resumeGame() {
 }
 
 function draw() {
+
+    // Fondo
     context.fillStyle = '#111';
     context.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Pikachu DVD
+    if (pikaLoaded) {
+        context.save();
+        context.globalAlpha = 0.18;
+        context.drawImage(pikachuImg, pika.x, pika.y, pika.w, pika.h);
+        context.restore();
+        // Movimiento
+        pika.x += pika.dx;
+        pika.y += pika.dy;
+        if (pika.x <= 0 || pika.x + pika.w >= arenaWidth) pika.dx *= -1;
+        if (pika.y <= 0 || pika.y + pika.h >= arenaHeight) pika.dy *= -1;
+    }
+
     drawGrid(context, arenaWidth, arenaHeight);
     drawMatrix(arena, {x:0, y:0});
     drawMatrix(player.matrix, player.pos);
