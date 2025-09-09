@@ -2,8 +2,9 @@
 
 # 🎮 Tetris Web
 
+
 <p align="center">
-	<img src="https://img.icons8.com/color/96/000000/tetris.png" alt="Tetris Icon" width="96" height="96"/>
+	<img src="Imagenes/PikaHi.jpg" alt="PikaHi Icon" width="96" height="96"/>
 </p>
 
 ¡Bienvenido a <b>Tetris Web</b>! Este es un clon moderno de Tetris hecho en HTML, CSS y JavaScript puro, jugable directamente en tu navegador local.
