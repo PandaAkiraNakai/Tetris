@@ -6,6 +6,10 @@ const nextCanvas = document.getElementById('next');
 const nextCtx = nextCanvas.getContext('2d');
 nextCtx.scale(20, 20);
 
+let gameStarted = false;
+let paused = false;
+let animationId = null;
+
 const arenaWidth = 12;
 const arenaHeight = 20;
 
@@ -201,6 +205,7 @@ let dropInterval = 1000;
 let lastTime = 0;
 
 function update(time = 0) {
+    if (paused) return;
     const deltaTime = time - lastTime;
     lastTime = time;
     dropCounter += deltaTime;
@@ -208,7 +213,31 @@ function update(time = 0) {
         playerDrop();
     }
     draw();
-    requestAnimationFrame(update);
+    animationId = requestAnimationFrame(update);
+}
+function pauseGame() {
+    if (!gameStarted || paused) return;
+    paused = true;
+    if (animationId) cancelAnimationFrame(animationId);
+    const btn = document.getElementById('pauseBtn');
+    if (btn) {
+        btn.innerText = 'Reanudar';
+        btn.classList.remove('btn-warning');
+        btn.classList.add('btn-primary');
+    }
+}
+
+function resumeGame() {
+    if (!gameStarted || !paused) return;
+    paused = false;
+    lastTime = performance.now();
+    update();
+    const btn = document.getElementById('pauseBtn');
+    if (btn) {
+        btn.innerText = 'Pausar';
+        btn.classList.remove('btn-primary');
+        btn.classList.add('btn-warning');
+    }
 }
 
 function draw() {
@@ -257,7 +286,17 @@ const player = {
     score: 0,
 };
 
-document.addEventListener('keydown', event => {
+
+function enableControls(enable) {
+    if (enable) {
+        document.addEventListener('keydown', keyHandler);
+    } else {
+        document.removeEventListener('keydown', keyHandler);
+    }
+}
+
+function keyHandler(event) {
+    if (!gameStarted) return;
     if (event.key === 'ArrowLeft') {
         playerMove(-1);
     } else if (event.key === 'ArrowRight') {
@@ -269,8 +308,63 @@ document.addEventListener('keydown', event => {
     } else if (event.key === 'w' || event.key === 'W') {
         playerRotate(1);
     }
-});
+}
 
-playerReset();
-updateScore();
-update();
+function startGame() {
+    if (gameStarted) return;
+    gameStarted = true;
+    playerReset();
+    updateScore();
+    dropCounter = 0;
+    lastTime = 0;
+    enableControls(true);
+    update();
+}
+
+function stopGame() {
+    gameStarted = false;
+    enableControls(false);
+    if (animationId) cancelAnimationFrame(animationId);
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    // Mostrar mensaje de bienvenida con SweetAlert2
+    if (window.Swal) {
+        Swal.fire({
+            title: '¡Bienvenido a Tetris!',
+            html: '<b>Controles:</b><br>⬅️/➡️: Mover | ⬇️: Caer | Q/W: Rotar',
+            icon: 'info',
+            confirmButtonText: '¡Jugar!'
+        });
+    }
+    // Deshabilitar controles hasta iniciar
+    enableControls(false);
+    // Botón de inicio
+    const btn = document.getElementById('startBtn');
+    const pauseBtn = document.getElementById('pauseBtn');
+    if (btn) {
+        btn.addEventListener('click', () => {
+            startGame();
+            btn.disabled = true;
+            btn.innerText = '¡En juego!';
+            if (pauseBtn) {
+                pauseBtn.disabled = false;
+                pauseBtn.innerText = 'Pausar';
+                pauseBtn.classList.remove('btn-primary');
+                pauseBtn.classList.add('btn-warning');
+            }
+        });
+    }
+    if (pauseBtn) {
+        pauseBtn.addEventListener('click', () => {
+            if (!gameStarted) return;
+            if (paused) {
+                resumeGame();
+            } else {
+                pauseGame();
+            }
+        });
+    }
+    // Mostrar tablero vacío
+    draw();
+});
