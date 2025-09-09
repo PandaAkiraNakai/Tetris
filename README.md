@@ -39,16 +39,17 @@ No requiere frameworks ni dependencias externas adicionales, solo un navegador m
 - 🖼️ **Fondo animado tipo DVD screensaver**: Un Pikachu (PikaHi) rebota por el fondo del tablero, ¡al estilo DVD clásico!
 - 🗃️ **Versión standalone portable**: El archivo `tetris-standalone.html` incluye la imagen de fondo embebida en Base64, por lo que funciona sin archivos externos. ¡Ideal para compartir o llevar en USB!
 - 📁 **Versión modular**: Puedes usar la versión clásica con archivos separados (`index.html`, `tetris.js`, `style.css`, imagen en `Imagenes/`).
-- 🏅 **Records persistentes y portables**: Tus records (puntajes más altos) se guardan automáticamente en tu navegador. Puedes exportarlos como archivo JSON e importarlos en otro navegador o dispositivo usando los botones de la sección "Records".
+
 
 ---
 
+
 ## 🏅 Instrucciones de records (highscores)
 
-- Los records se guardan automáticamente en tu navegador (localStorage).
-- Puedes <b>exportar</b> tus records como archivo <code>JSON</code> usando el botón "Exportar" en la sección de records.
-- Puedes <b>importar</b> records desde un archivo <code>JSON</code> usando el botón "Importar" (útil para transferir tus records entre navegadores o computadoras).
-- Los records NO se pierden al cerrar la página o el navegador, salvo que borres los datos del navegador manualmente.
+- Usa el botón <b>Exportar</b> para descargar tus records como archivo <code>JSON</code>.
+- Usa el botón <b>Importar</b> para cargar records desde un archivo <code>JSON</code> (útil para transferir tus records entre navegadores o computadoras).
+- <span style="color:orange;font-weight:bold">Los records NO se guardan automáticamente. ¡Recuerda exportar si quieres conservarlos!</span>
+
 
 
 
