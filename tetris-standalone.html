@@ -97,10 +97,42 @@ body {
             </div>
         </div>
         <div id="score" class="text-center mt-3 fs-4">Puntaje: 0</div>
+        <div id="highscores" class="text-center mt-2">
+            <h5 class="text-info">Records</h5>
+            <ol id="highscore-list" class="list-unstyled mb-0"></ol>
+        </div>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.0/dist/sweetalert2.all.min.js"></script>
     <script>
+
+// High Score Helpers (moved inside script tag)
+const HIGHSCORES_KEY = 'tetris_highscores';
+const MAX_HIGHSCORES = 5;
+
+function getHighScores() {
+    const raw = localStorage.getItem(HIGHSCORES_KEY);
+    return raw ? JSON.parse(raw) : [];
+}
+
+function saveHighScores(scores) {
+    localStorage.setItem(HIGHSCORES_KEY, JSON.stringify(scores));
+}
+
+function tryAddHighScore(score) {
+    let scores = getHighScores();
+    scores.push(score);
+    scores = scores.sort((a, b) => b - a).slice(0, MAX_HIGHSCORES);
+    saveHighScores(scores);
+}
+
+function renderHighScores() {
+    const list = document.getElementById('highscore-list');
+    if (!list) return;
+    const scores = getHighScores();
+    list.innerHTML = scores.length ? scores.map((s, i) => `<li><span class='fw-bold'>${i+1}.</span> <span class='text-warning'>${s}</span></li>`).join('') : '<li class="text-muted">Sin records</li>';
+}
 
 
 const canvas = document.getElementById('tetris');
@@ -302,6 +334,9 @@ function playerReset() {
     player.pos.y = 0;
     player.pos.x = (arenaWidth / 2 | 0) - (player.matrix[0].length / 2 | 0);
     if (collide(arena, player)) {
+        // GAME OVER
+        tryAddHighScore(player.score);
+        renderHighScores();
         arena.forEach(row => row.fill(0));
         player.score = 0;
         updateScore();
@@ -403,6 +438,7 @@ function draw() {
 
 function updateScore() {
     document.getElementById('score').innerText = 'Puntaje: ' + player.score;
+    renderHighScores();
 }
 
 const colors = [
@@ -506,6 +542,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
     // Mostrar tablero vacío
     draw();
+    renderHighScores();
 });
     </script>
 </body>

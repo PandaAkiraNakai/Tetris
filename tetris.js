@@ -202,6 +202,9 @@ function playerReset() {
     player.pos.y = 0;
     player.pos.x = (arenaWidth / 2 | 0) - (player.matrix[0].length / 2 | 0);
     if (collide(arena, player)) {
+        // GAME OVER
+        tryAddHighScore(player.score);
+        renderHighScores();
         arena.forEach(row => row.fill(0));
         player.score = 0;
         updateScore();
@@ -303,6 +306,7 @@ function draw() {
 
 function updateScore() {
     document.getElementById('score').innerText = 'Puntaje: ' + player.score;
+    renderHighScores();
 }
 
 const colors = [
@@ -318,12 +322,38 @@ const colors = [
 
 const arena = createMatrix(arenaWidth, arenaHeight);
 
+
+const HIGHSCORES_KEY = 'tetris_highscores';
+const MAX_HIGHSCORES = 5;
 const player = {
     pos: {x:0, y:0},
     matrix: null,
     next: null,
     score: 0,
 };
+
+function getHighScores() {
+    const raw = localStorage.getItem(HIGHSCORES_KEY);
+    return raw ? JSON.parse(raw) : [];
+}
+
+function saveHighScores(scores) {
+    localStorage.setItem(HIGHSCORES_KEY, JSON.stringify(scores));
+}
+
+function tryAddHighScore(score) {
+    let scores = getHighScores();
+    scores.push(score);
+    scores = scores.sort((a, b) => b - a).slice(0, MAX_HIGHSCORES);
+    saveHighScores(scores);
+}
+
+function renderHighScores() {
+    const list = document.getElementById('highscore-list');
+    if (!list) return;
+    const scores = getHighScores();
+    list.innerHTML = scores.length ? scores.map((s, i) => `<li><span class='fw-bold'>${i+1}.</span> <span class='text-warning'>${s}</span></li>`).join('') : '<li class="text-muted">Sin records</li>';
+}
 
 
 function enableControls(enable) {
@@ -406,4 +436,5 @@ window.addEventListener('DOMContentLoaded', () => {
     }
     // Mostrar tablero vacío
     draw();
+    renderHighScores();
 });
