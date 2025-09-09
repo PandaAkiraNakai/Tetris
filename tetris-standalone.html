@@ -100,6 +100,17 @@ body {
         <div id="highscores" class="text-center mt-2">
             <h5 class="text-info">Records</h5>
             <ol id="highscore-list" class="list-unstyled mb-0"></ol>
+            <div class="mt-2">
+                <button id="exportHighscores" class="btn btn-sm btn-outline-info me-1">Exportar</button>
+                <label for="importHighscores" class="btn btn-sm btn-outline-success mb-0">Importar</label>
+                <input type="file" id="importHighscores" accept="application/json" style="display:none">
+            </div>
+            <div class="mt-2 small text-secondary">
+                <b>¿Cómo funcionan los records?</b><br>
+                Los records se guardan automáticamente en tu navegador.<br>
+                Puedes <b>exportar</b> tus records como archivo <code>JSON</code> y <b>importarlos</b> en otro navegador o dispositivo usando los botones.<br>
+                <span class="text-warning">¡No se pierden al cerrar la página!</span>
+            </div>
         </div>
     </div>
 
@@ -107,9 +118,42 @@ body {
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.0/dist/sweetalert2.all.min.js"></script>
     <script>
 
-// High Score Helpers (moved inside script tag)
 const HIGHSCORES_KEY = 'tetris_highscores';
 const MAX_HIGHSCORES = 5;
+
+// Exportar highscores como archivo JSON
+function exportHighScores() {
+    const scores = getHighScores();
+    const blob = new Blob([JSON.stringify(scores, null, 2)], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'tetris_highscores.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+// Importar highscores desde archivo JSON
+function importHighScoresFromFile(file) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const data = JSON.parse(e.target.result);
+            if (Array.isArray(data) && data.every(x => typeof x === 'number')) {
+                saveHighScores(data.sort((a,b)=>b-a).slice(0, MAX_HIGHSCORES));
+                renderHighScores();
+                Swal && Swal.fire('Importado', 'Records importados correctamente.', 'success');
+            } else {
+                throw new Error('Formato inválido');
+            }
+        } catch {
+            Swal && Swal.fire('Error', 'No se pudo importar el archivo. ¿Es un JSON válido de records?', 'error');
+        }
+    };
+    reader.readAsText(file);
+}
 
 function getHighScores() {
     const raw = localStorage.getItem(HIGHSCORES_KEY);
@@ -537,6 +581,20 @@ window.addEventListener('DOMContentLoaded', () => {
                 resumeGame();
             } else {
                 pauseGame();
+            }
+        });
+    }
+    // Botones de exportar/importar highscores
+    const exportBtn = document.getElementById('exportHighscores');
+    const importInput = document.getElementById('importHighscores');
+    if (exportBtn) {
+        exportBtn.addEventListener('click', exportHighScores);
+    }
+    if (importInput) {
+        importInput.addEventListener('change', (e) => {
+            if (e.target.files && e.target.files[0]) {
+                importHighScoresFromFile(e.target.files[0]);
+                e.target.value = '';
             }
         });
     }
