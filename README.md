@@ -16,20 +16,27 @@
 - ⬇️ — Acelerar caída
 - Q / W — Rotar pieza
 
+
 ## Estructura del proyecto
 
 ```
 Tetris/
-├── index.html      # Página principal del juego
-├── style.css       # Estilos visuales
-├── tetris.js       # Lógica del juego
-└── README.md       # Este archivo
+├── index.html            # Página principal del juego (archivos separados)
+├── style.css             # Estilos visuales
+├── tetris.js             # Lógica del juego
+├── tetris-standalone.html # Versión TODO EN UNO (solo este archivo)
+└── README.md             # Este archivo
 ```
 
 ## Cómo jugar
 
+### Opción 1: Archivos separados
 1. Abre el archivo `index.html` en tu navegador favorito.
 2. ¡Disfruta jugando Tetris!
+
+### Opción 2: Un solo archivo (recomendado para compartir)
+1. Abre el archivo `tetris-standalone.html` en cualquier navegador.
+2. ¡No necesitas nada más! Puedes enviar este archivo por correo, chat, etc.
 
 ## Créditos
 
