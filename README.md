@@ -31,9 +31,8 @@ No requiere frameworks ni dependencias externas adicionales, solo un navegador m
 - 🏆 **Puntaje en tiempo real**: El puntaje se actualiza automáticamente al eliminar líneas.
 - ⏸️ **Botón de pausa/reanudar**: Puedes pausar y continuar la partida en cualquier momento.
 - 💎 **Diseño moderno y responsivo**: Interfaz limpia y agradable, con Bootstrap y SweetAlert2.
-- 🖼️ **Fondo animado tipo DVD screensaver**: Un Pikachu (PikaHi) rebota por el fondo del tablero, ¡al estilo DVD clásico!
-- 🗃️ **Versión standalone portable**: El archivo `tetris-standalone.html` incluye la imagen de fondo embebida en Base64, por lo que funciona sin archivos externos. ¡Ideal para compartir o llevar en USB!
-- 📁 **Versión modular**: Puedes usar la versión clásica con archivos separados (`index.html`, `tetris.js`, `style.css`, imagen en `Imagenes/`).
+- 🗃️ **Versión standalone portable**: El archivo `tetris-standalone.html` funciona sin archivos externos. ¡Ideal para compartir o llevar en USB!
+- 📁 **Versión modular**: Puedes usar la versión clásica con archivos separados (`index.html`, `tetris.js`, `style.css`).
 
 
 ---
@@ -68,8 +67,6 @@ Tetris/
 ├── index.html              # Página principal (modular, requiere archivos externos)
 ├── style.css               # Estilos visuales
 ├── tetris.js               # Lógica del juego
-├── Imagenes/
-│   └── PikaHi.jpg          # Imagen de Pikachu para el fondo animado (solo modular)
 ├── tetris-standalone.html  # Versión TODO EN UNO (portable, sin dependencias externas)
 └── README.md               # Este archivo
 ```
@@ -81,12 +78,11 @@ Tetris/
 
 ### 🗂️ Opción 1: Versión modular (archivos separados)
 1. Abre el archivo `index.html` en tu navegador favorito.
-2. Asegúrate de tener la imagen `Imagenes/PikaHi.jpg` en la ruta correcta.
-3. ¡Disfruta jugando Tetris!
+2. ¡Disfruta jugando Tetris!
 
 ### 📦 Opción 2: Versión standalone (recomendada para compartir)
 1. Abre el archivo `tetris-standalone.html` en cualquier navegador.
-2. ¡No necesitas nada más! La imagen de fondo ya está embebida. Puedes enviar este archivo por correo, chat, USB, etc.
+2. ¡No necesitas nada más! Puedes enviar este archivo por correo, chat, USB, etc.
 
 
 ---
@@ -94,7 +90,6 @@ Tetris/
 ## 👾 Créditos
 
 - Inspirado en el clásico Tetris.
-- Fondo animado de Pikachu (PikaHi) por el usuario.
 - Código base adaptado y mejorado por PandaAkiraNakai.
 
 ---
