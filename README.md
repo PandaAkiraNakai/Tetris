@@ -94,3 +94,6 @@ Tetris/
 
 ---
 ¡Diviértete y comparte!
+<!-- profile-excerpt -->
+Clon de Tetris en HTML5/JS puro, sin frameworks de juego. `// 4 a.m. coding · no deps`
+<!-- /profile-excerpt -->
